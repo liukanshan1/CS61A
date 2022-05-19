@@ -42,32 +42,34 @@ class Buffer:
     """
 
     def __init__(self, source):
-        self.index = 0
         self.source = source
-        self.current_line = ()
+        self.current_line = []
         self.current()
 
     def pop_first(self):
         """Remove the next item from self and return it. If self has
         exhausted its source, returns None."""
-        # BEGIN PROBLEM 1
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 1
+        if not self.current_line:
+            try:
+                self.current_line = next(self.source)
+            except StopIteration:
+                return None
+        temp = self.current_line[0]
+        del self.current_line[0]
+        return temp
 
     def current(self):
         """Return the current element, or None if none exists."""
-        while _________:
+        while not self.current_line:
             try:
-                # BEGIN PROBLEM 1
-                "*** YOUR CODE HERE ***"
-                # END PROBLEM 1
+                self.current_line = next(self.source)
             except StopIteration:
                 self.current_line = ()
                 return None
-        return __________
+        return self.current_line[0]
 
     def more_on_line(self):
-        return self.index < len(self.current_line)
+        return len(self.current_line) != 0
 
 
 # Try to import readline for interactive history
@@ -101,7 +103,7 @@ class LineReader:
         while self.lines:
             line = self.lines.pop(0).strip('\n')
             if (self.prompt is not None and line != "" and
-                not line.lstrip().startswith(self.comment)):
+                    not line.lstrip().startswith(self.comment)):
                 print(self.prompt + line)
                 self.prompt = ' ' * len(self.prompt)
             yield line
