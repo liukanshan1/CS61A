@@ -7,6 +7,7 @@ from ucb import main, trace
 
 import scheme_forms
 
+
 ##############
 # Eval/Apply #
 ##############
@@ -34,9 +35,15 @@ def scheme_eval(expr, env, _=None):  # Optional third argument is ignored
     if scheme_symbolp(first) and first in scheme_forms.SPECIAL_FORMS:
         return scheme_forms.SPECIAL_FORMS[first](rest, env)
     else:
-        # BEGIN PROBLEM 3
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 3
+        procedure = scheme_eval(first, env)
+        args = rest.map(operands_eval_fn(env))
+        return scheme_apply(procedure, args, env)
+
+
+def operands_eval_fn(env):
+    def operands_eval(expr):
+        return scheme_eval(expr, env)
+    return operands_eval
 
 
 def scheme_apply(procedure, args, env):
@@ -44,9 +51,14 @@ def scheme_apply(procedure, args, env):
     Frame ENV, the current environment."""
     validate_procedure(procedure)
     if isinstance(procedure, BuiltinProcedure):
-        # BEGIN PROBLEM 2
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 2
+        arglist = pair2List(args)
+        if procedure.expect_env:
+            arglist.append(env)
+        try:
+            res = procedure.py_func(*arglist)
+        except TypeError:
+            raise SchemeError('incorrect number of arguments')
+        return res
     elif isinstance(procedure, LambdaProcedure):
         # BEGIN PROBLEM 9
         "*** YOUR CODE HERE ***"
@@ -57,6 +69,15 @@ def scheme_apply(procedure, args, env):
         # END PROBLEM 11
     else:
         assert False, "Unexpected procedure: {}".format(procedure)
+
+
+def pair2List(pair):
+    if pair == nil:
+        return []
+    elif pair.rest == nil:
+        return [pair.first]
+    else:
+        return [pair.first] + pair2List(pair.rest)
 
 
 def eval_all(expressions, env):
@@ -104,6 +125,7 @@ def complete_apply(procedure, args, env):
 
 def optimize_tail_calls(original_scheme_eval):
     """Return a properly tail recursive version of an eval function."""
+
     def optimized_eval(expr, env, tail=False):
         """Evaluate Scheme expression EXPR in Frame ENV. If TAIL,
         return an Unevaluated containing an expression for further evaluation.
@@ -115,8 +137,8 @@ def optimize_tail_calls(original_scheme_eval):
         # BEGIN PROBLEM EC
         "*** YOUR CODE HERE ***"
         # END PROBLEM EC
-    return optimized_eval
 
+    return optimized_eval
 
 ################################################################
 # Uncomment the following line to apply tail call optimization #

@@ -58,7 +58,6 @@ class Pair:
         else:
             raise TypeError('ill-formed list (cdr is a promise)')
 
-
 class nil:
     """The empty list"""
 

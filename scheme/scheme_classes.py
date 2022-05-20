@@ -8,6 +8,7 @@ from ucb import main, trace
 class SchemeError(Exception):
     """Exception indicating an error in a Scheme program."""
 
+
 ################
 # Environments #
 ################
@@ -29,16 +30,17 @@ class Frame:
 
     def define(self, symbol, value):
         """Define Scheme SYMBOL to have VALUE."""
-        # BEGIN PROBLEM 1
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 1
+        self.bindings[symbol] = [value]
 
     def lookup(self, symbol):
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
-        # BEGIN PROBLEM 1
-        "*** YOUR CODE HERE ***"
-        # END PROBLEM 1
-        raise SchemeError('unknown identifier: {0}'.format(symbol))
+        temp = self.bindings.get(symbol)
+        if temp:
+            return temp[0]
+        else:
+            if self.parent:
+                return self.parent.lookup(symbol)
+            raise SchemeError('unknown identifier: {0}'.format(symbol))
 
     def make_child_frame(self, formals, vals):
         """Return a new local frame whose parent is SELF, in which the symbols
@@ -57,6 +59,7 @@ class Frame:
         # BEGIN PROBLEM 8
         "*** YOUR CODE HERE ***"
         # END PROBLEM 8
+
 
 ##############
 # Procedures #
