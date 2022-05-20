@@ -85,7 +85,7 @@ class BuiltinProcedure(Procedure):
 class LambdaProcedure(Procedure):
     """A procedure defined by a lambda expression or a define form."""
 
-    def __init__(self, formals, body, env):
+    def __init__(self, formals: object, body: object, env: object) -> object:
         """A procedure with formal parameter list FORMALS (a Scheme list),
         whose body is the Scheme list BODY, and whose parent environment
         starts with Frame ENV."""
