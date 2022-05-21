@@ -6,20 +6,29 @@
 ;; Problem 15
 ;; Returns a list of two-element lists
 (define (enumerate s)
-  ; BEGIN PROBLEM 15
-  'replace-this-line
+    (define (rec-enum s num)
+        (if (> (length s) 0)
+            (append (list (list num (car s))) (rec-enum (cdr s) (+ num 1)))
+            (list)
+        )
+    )
+    (rec-enum s 0)
   )
-  ; END PROBLEM 15
+
 
 ;; Problem 16
 
 ;; Merge two lists LIST1 and LIST2 according to INORDER? and return
 ;; the merged lists.
 (define (merge inorder? list1 list2)
-  ; BEGIN PROBLEM 16
-  'replace-this-line
+  (cond
+      ((null? list1) list2)
+      ((null? list2) list1)
+      ((inorder? (car list1) (car list2)) (append (list (car list1)) (merge inorder? (cdr list1) list2)))
+      ((inorder? (car list2) (car list1)) (append (list (car list2)) (merge inorder? list1 (cdr list2))))
+    )
   )
-  ; END PROBLEM 16
+  
 
 
 ;; Optional Problem 1
