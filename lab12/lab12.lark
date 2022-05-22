@@ -1,0 +1,22 @@
+    
+    link: "null"
+    
+    ?link_first: "null"
+    
+    ?link_rest: "null"
+    
+    %ignore /\s+/
+    %import common.NUMBER
+
+
+    
+    tree_node: "null"
+    
+    
+    ?label: "null"
+    
+    branches: "null"
+    
+    %ignore /\s+/
+    %import common.NUMBER
+
