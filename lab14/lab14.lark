@@ -1,0 +1,11 @@
+lines: "null"
+
+line: "null"
+
+word: "null"
+
+newline: "\n"
+
+
+%import common.WORD
+
