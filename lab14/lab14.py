@@ -20,7 +20,9 @@ def prune_min(t):
     >>> t3
     Tree(6, [Tree(3, [Tree(1)])])
     """
-    "*** YOUR CODE HERE ***"
+    if len(t.branches) == 2:
+        t.branches.pop()
+        prune_min(t.branches[0])
 
 
 def address_oneline(text):
@@ -41,10 +43,10 @@ def address_oneline(text):
     >>> address_oneline("790 lowercase St")
     []
     """
-    block_number = r'___'
-    cardinal_dir = r'___'  # whitespace is important!
-    street = r'___'
-    type_abbr = r'___'
+    block_number = r'(\d{3,5}'
+    cardinal_dir = r'(?:[NEWS] )?'  # whitespace is important!
+    street = r'[A-Z][a-z|A-Z| ]+'
+    type_abbr = r'[A-Z][a-z]{1,4})\b'
     street_name = f"{cardinal_dir}{street}{type_abbr}"
     return re.findall(f"{block_number} {street_name}", text)
 
@@ -260,10 +262,10 @@ def match_url(text):
     >>> match_url("htp://domain.org")
     False
     """
-    scheme = r'___'
-    domain = r'___'
-    path = r'___'
-    anchor = r'___'
+    scheme = r'http[s]?://'
+    domain = r'(?:[a-z0-9]+\.)+[a-z0-9]+'
+    path = r'(?:/[a-z]+)+(?:(?:\.html)|(?:/))'
+    anchor = r'\#[0-9a-z\-_]+'
     return bool(re.match(rf"^(?:{scheme})?{domain}(?:{path})?(?:{anchor})?$", text))
 
 
